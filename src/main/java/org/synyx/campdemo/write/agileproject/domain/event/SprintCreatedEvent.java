@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project.domain.event;
+package org.synyx.campdemo.write.agileproject.domain.event;
 
 public final class SprintCreatedEvent {
 

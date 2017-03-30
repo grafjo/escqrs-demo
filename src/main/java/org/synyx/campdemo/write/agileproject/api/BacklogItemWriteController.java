@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project.api;
+package org.synyx.campdemo.write.agileproject.api;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 
@@ -10,11 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.synyx.campdemo.project.domain.command.CreateSprintCommand;
+import org.synyx.campdemo.write.agileproject.domain.command.AssignBacklogItemCommand;
+import org.synyx.campdemo.write.agileproject.domain.command.CreateBacklogItemCommand;
 
 import java.net.URI;
 
@@ -22,13 +25,13 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 
 @RestController
-@RequestMapping("/sprints")
-public class SprintController {
+@RequestMapping("/backlogitems")
+public class BacklogItemWriteController {
 
     private final CommandGateway commandGateway;
 
     @Autowired
-    public SprintController(CommandGateway commandGateway) {
+    public BacklogItemWriteController(CommandGateway commandGateway) {
 
         this.commandGateway = commandGateway;
     }
@@ -37,7 +40,7 @@ public class SprintController {
     public ResponseEntity<Void> create(String name) {
 
         String identifier = IdentifierFactory.getInstance().generateIdentifier();
-        CreateSprintCommand command = new CreateSprintCommand(identifier, name);
+        CreateBacklogItemCommand command = new CreateBacklogItemCommand(identifier, name);
         commandGateway.sendAndWait(command);
 
         URI uri = fromCurrentRequest().path("/{id}").buildAndExpand(identifier).toUri();
@@ -45,5 +48,13 @@ public class SprintController {
         httpHeaders.setLocation(uri);
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+    }
+
+
+    @RequestMapping(value = "/{id}/commitment", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void assignToSprint(@PathVariable("id") String backlogItemIdentifier, String sprintIdentifier) {
+
+        commandGateway.sendAndWait(new AssignBacklogItemCommand(backlogItemIdentifier, sprintIdentifier));
     }
 }

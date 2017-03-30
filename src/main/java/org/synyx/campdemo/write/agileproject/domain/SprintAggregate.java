@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project.domain;
+package org.synyx.campdemo.write.agileproject.domain;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
@@ -8,8 +8,8 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 
 import org.axonframework.spring.stereotype.Aggregate;
 
-import org.synyx.campdemo.project.domain.command.CreateSprintCommand;
-import org.synyx.campdemo.project.domain.event.SprintCreatedEvent;
+import org.synyx.campdemo.write.agileproject.domain.command.CreateSprintCommand;
+import org.synyx.campdemo.write.agileproject.domain.event.SprintCreatedEvent;
 
 
 @Aggregate

@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project.domain.command;
+package org.synyx.campdemo.write.agileproject.domain.command;
 
 public final class CreateSprintCommand {
 

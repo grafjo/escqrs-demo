@@ -1,0 +1,51 @@
+package org.synyx.campdemo.read.agileproject.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+
+/**
+ * @author  David Schilling - schilling@synyx.de
+ */
+@Entity
+public class Sprint {
+
+    @Id
+    private String identifier;
+    private String name;
+
+    @OneToMany(mappedBy = "sprint", fetch = FetchType.EAGER)
+    private List<BacklogItem> backlogItems = new ArrayList<>();
+
+    protected Sprint() {
+    }
+
+
+    public Sprint(String identifier, String name) {
+
+        this.identifier = identifier;
+        this.name = name;
+    }
+
+    public String getIdentifier() {
+
+        return identifier;
+    }
+
+
+    public String getName() {
+
+        return name;
+    }
+
+
+    public List<BacklogItem> getBacklogItems() {
+
+        return backlogItems;
+    }
+}

@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project.domain;
+package org.synyx.campdemo.write.agileproject.domain;
 
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
@@ -6,8 +6,8 @@ import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.synyx.campdemo.project.domain.command.CreateSprintCommand;
-import org.synyx.campdemo.project.domain.event.SprintCreatedEvent;
+import org.synyx.campdemo.write.agileproject.domain.command.CreateSprintCommand;
+import org.synyx.campdemo.write.agileproject.domain.event.SprintCreatedEvent;
 
 
 class SprintAggregateAxonTest {

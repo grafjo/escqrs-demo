@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project.domain;
+package org.synyx.campdemo.write.agileproject.domain;
 
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
 
-import org.synyx.campdemo.project.RepositoryFacade;
-import org.synyx.campdemo.project.domain.command.AssignBacklogItemCommand;
-import org.synyx.campdemo.project.domain.command.CreateBacklogItemCommand;
-import org.synyx.campdemo.project.domain.event.BacklogItemAssignedEvent;
-import org.synyx.campdemo.project.domain.event.BacklogItemCreatedEvent;
+import org.synyx.campdemo.write.agileproject.RepositoryFacade;
+import org.synyx.campdemo.write.agileproject.domain.command.AssignBacklogItemCommand;
+import org.synyx.campdemo.write.agileproject.domain.command.CreateBacklogItemCommand;
+import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemAssignedEvent;
+import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCreatedEvent;
 
 
 class BacklogItemAggregateAxonTest {

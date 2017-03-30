@@ -1,4 +1,4 @@
-package org.synyx.campdemo.project;
+package org.synyx.campdemo.write.agileproject;
 
 import org.axonframework.commandhandling.model.Aggregate;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
-import org.synyx.campdemo.project.domain.SprintAggregate;
+import org.synyx.campdemo.write.agileproject.domain.SprintAggregate;
 
 
 @Component
