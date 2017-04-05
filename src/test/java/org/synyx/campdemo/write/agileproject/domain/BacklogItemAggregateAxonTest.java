@@ -3,8 +3,8 @@ package org.synyx.campdemo.write.agileproject.domain;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.mockito.Mockito;
 
@@ -15,13 +15,13 @@ import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemAssignedEve
 import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCreatedEvent;
 
 
-class BacklogItemAggregateAxonTest {
+public class BacklogItemAggregateAxonTest {
 
     private FixtureConfiguration<BacklogItemAggregate> fixtureConfiguration;
     private RepositoryFacade repositoryFacade;
 
-    @BeforeEach
-    void before() {
+    @Before
+    public void before() {
 
         repositoryFacade = Mockito.mock(RepositoryFacade.class);
 
@@ -31,7 +31,7 @@ class BacklogItemAggregateAxonTest {
 
 
     @Test
-    void createBacklogItem() {
+    public void createBacklogItem() {
 
         CreateBacklogItemCommand command = new CreateBacklogItemCommand("id", "name");
         BacklogItemCreatedEvent expected = new BacklogItemCreatedEvent("id", "name");
@@ -41,7 +41,7 @@ class BacklogItemAggregateAxonTest {
 
 
     @Test
-    void assignBacklogItem() {
+    public void assignBacklogItem() {
 
         BacklogItemCreatedEvent biCreatedEvent = new BacklogItemCreatedEvent("id-backlog-item", "name");
         AssignBacklogItemCommand command = new AssignBacklogItemCommand("id-backlog-item", "id-sprint");
