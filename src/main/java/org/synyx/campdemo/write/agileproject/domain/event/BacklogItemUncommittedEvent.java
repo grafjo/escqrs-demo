@@ -1,11 +1,11 @@
 package org.synyx.campdemo.write.agileproject.domain.event;
 
-public final class BacklogItemAssignedEvent {
+public class BacklogItemUncommittedEvent {
 
     private final String backlogItemIdentifier;
     private final String sprintIdentifier;
 
-    public BacklogItemAssignedEvent(String backlogItemIdentifier, String sprintIdentifier) {
+    public BacklogItemUncommittedEvent(String backlogItemIdentifier, String sprintIdentifier) {
 
         this.backlogItemIdentifier = backlogItemIdentifier;
         this.sprintIdentifier = sprintIdentifier;

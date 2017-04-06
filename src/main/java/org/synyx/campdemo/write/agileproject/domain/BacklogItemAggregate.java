@@ -9,10 +9,11 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import org.synyx.campdemo.write.agileproject.RepositoryFacade;
-import org.synyx.campdemo.write.agileproject.domain.command.AssignBacklogItemCommand;
+import org.synyx.campdemo.write.agileproject.domain.command.CommitBacklogItemCommand;
 import org.synyx.campdemo.write.agileproject.domain.command.CreateBacklogItemCommand;
-import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemAssignedEvent;
+import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCommittedEvent;
 import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCreatedEvent;
+import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemUncommittedEvent;
 
 
 @Aggregate
@@ -42,18 +43,29 @@ public class BacklogItemAggregate {
 
 
     @CommandHandler
-    public void assign(AssignBacklogItemCommand command, RepositoryFacade repositoryFacade) {
+    public void commit(CommitBacklogItemCommand command, RepositoryFacade repositoryFacade) {
 
         String sprintIdentifier = command.getSprintIdentifier();
         repositoryFacade.loadSprintAggregate(sprintIdentifier); // fails if sprint does not exist
 
-        String backlogItemIdentifier = command.getBacklogItemIdentifier();
-        AggregateLifecycle.apply(new BacklogItemAssignedEvent(backlogItemIdentifier, sprintIdentifier));
+        revokePreviousCommit();
+
+        AggregateLifecycle.apply(new BacklogItemCommittedEvent(identifier, sprintIdentifier));
+    }
+
+
+    private void revokePreviousCommit() {
+
+        if (sprintIdentifier == null) {
+            return;
+        }
+
+        AggregateLifecycle.apply(new BacklogItemUncommittedEvent(identifier, sprintIdentifier));
     }
 
 
     @EventSourcingHandler
-    private void handle(BacklogItemAssignedEvent event) {
+    private void handle(BacklogItemCommittedEvent event) {
 
         this.sprintIdentifier = event.getSprintIdentifier();
     }

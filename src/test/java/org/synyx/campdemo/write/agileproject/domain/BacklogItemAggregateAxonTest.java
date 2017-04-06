@@ -9,10 +9,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import org.synyx.campdemo.write.agileproject.RepositoryFacade;
-import org.synyx.campdemo.write.agileproject.domain.command.AssignBacklogItemCommand;
+import org.synyx.campdemo.write.agileproject.domain.command.CommitBacklogItemCommand;
 import org.synyx.campdemo.write.agileproject.domain.command.CreateBacklogItemCommand;
-import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemAssignedEvent;
+import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCommittedEvent;
 import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCreatedEvent;
+import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemUncommittedEvent;
 
 
 public class BacklogItemAggregateAxonTest {
@@ -41,14 +42,30 @@ public class BacklogItemAggregateAxonTest {
 
 
     @Test
-    public void assignBacklogItem() {
+    public void commitBacklogItem() {
 
-        BacklogItemCreatedEvent biCreatedEvent = new BacklogItemCreatedEvent("id-backlog-item", "name");
-        AssignBacklogItemCommand command = new AssignBacklogItemCommand("id-backlog-item", "id-sprint");
-        BacklogItemAssignedEvent expected = new BacklogItemAssignedEvent("id-backlog-item", "id-sprint");
+        BacklogItemCreatedEvent created = new BacklogItemCreatedEvent("id", "name");
+        CommitBacklogItemCommand command = new CommitBacklogItemCommand("id", "id-sprint");
+        BacklogItemCommittedEvent expected = new BacklogItemCommittedEvent("id", "id-sprint");
 
-        fixtureConfiguration.given(biCreatedEvent).when(command).expectEvents(expected);
+        fixtureConfiguration.given(created).when(command).expectEvents(expected);
 
         Mockito.verify(repositoryFacade).loadSprintAggregate("id-sprint");
+    }
+
+
+    @Test
+    public void commitAlreadyCommittedBacklogItem() {
+
+        BacklogItemCreatedEvent created = new BacklogItemCreatedEvent("id", "name");
+        BacklogItemCommittedEvent committed = new BacklogItemCommittedEvent("id", "id-sprint");
+        CommitBacklogItemCommand command = new CommitBacklogItemCommand("id", "id-new-sprint");
+
+        fixtureConfiguration.given(created, committed)
+            .when(command)
+            .expectEvents(new BacklogItemUncommittedEvent("id", "id-sprint"),
+                new BacklogItemCommittedEvent("id", "id-new-sprint"));
+
+        Mockito.verify(repositoryFacade).loadSprintAggregate("id-new-sprint");
     }
 }

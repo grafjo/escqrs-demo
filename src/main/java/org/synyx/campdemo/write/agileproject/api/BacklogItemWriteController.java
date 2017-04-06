@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.synyx.campdemo.write.agileproject.domain.command.AssignBacklogItemCommand;
+import org.synyx.campdemo.write.agileproject.domain.command.CommitBacklogItemCommand;
 import org.synyx.campdemo.write.agileproject.domain.command.CreateBacklogItemCommand;
 
 import java.net.URI;
@@ -53,8 +53,8 @@ public class BacklogItemWriteController {
 
     @RequestMapping(value = "/{id}/commitment", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void assignToSprint(@PathVariable("id") String backlogItemIdentifier, String sprintIdentifier) {
+    public void commit(@PathVariable("id") String backlogItemIdentifier, String sprintIdentifier) {
 
-        commandGateway.sendAndWait(new AssignBacklogItemCommand(backlogItemIdentifier, sprintIdentifier));
+        commandGateway.sendAndWait(new CommitBacklogItemCommand(backlogItemIdentifier, sprintIdentifier));
     }
 }
