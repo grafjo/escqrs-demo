@@ -35,7 +35,7 @@ public class SprintWriteController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody CreateSprintDto dto) {
+    public ResponseEntity<Void> create(@RequestBody SprintDto dto) {
 
         String identifier = IdentifierFactory.getInstance().generateIdentifier();
         CreateSprintCommand command = new CreateSprintCommand(identifier, dto.name);

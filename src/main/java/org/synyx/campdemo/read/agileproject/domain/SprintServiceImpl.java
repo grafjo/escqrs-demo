@@ -1,8 +1,8 @@
 package org.synyx.campdemo.read.agileproject.domain;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,11 +14,12 @@ import java.util.List;
 public class SprintServiceImpl implements SprintService {
 
     private SprintRepository sprintRepository;
+    private BacklogItemService backlogItemService;
 
-    @Autowired
-    public SprintServiceImpl(SprintRepository sprintRepository) {
+    public SprintServiceImpl(SprintRepository sprintRepository, BacklogItemService backlogItemService) {
 
         this.sprintRepository = sprintRepository;
+        this.backlogItemService = backlogItemService;
     }
 
     @Override
@@ -39,5 +40,18 @@ public class SprintServiceImpl implements SprintService {
     public List<BacklogItem> backlogItems(String identifier) {
 
         return get(identifier).getBacklogItems();
+    }
+
+
+    @Override
+    @Transactional
+    public void commit(String sprintIdentifier, String backlogItemIdentifier) {
+
+        BacklogItem backlogItem = backlogItemService.get(backlogItemIdentifier);
+        Sprint sprint = get(sprintIdentifier);
+
+        sprint.addBacklogItem(backlogItem);
+
+        sprintRepository.save(sprint);
     }
 }

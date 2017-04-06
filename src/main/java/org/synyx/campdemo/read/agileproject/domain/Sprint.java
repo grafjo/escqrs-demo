@@ -1,8 +1,11 @@
 package org.synyx.campdemo.read.agileproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,7 +22,7 @@ public class Sprint {
     private String identifier;
     private String name;
 
-    @OneToMany(mappedBy = "sprint", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<BacklogItem> backlogItems = new ArrayList<>();
 
     protected Sprint() {
@@ -44,8 +47,16 @@ public class Sprint {
     }
 
 
+    @JsonIgnore
     public List<BacklogItem> getBacklogItems() {
 
         return backlogItems;
+    }
+
+
+    void addBacklogItem(BacklogItem backlogItem) {
+
+        backlogItems.add(backlogItem);
+        backlogItem.setSprint(this);
     }
 }

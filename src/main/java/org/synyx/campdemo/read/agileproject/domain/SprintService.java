@@ -15,4 +15,7 @@ public interface SprintService {
 
 
     List<BacklogItem> backlogItems(String identifier);
+
+
+    void commit(String sprintIdentifier, String backlogItemIdentifier);
 }

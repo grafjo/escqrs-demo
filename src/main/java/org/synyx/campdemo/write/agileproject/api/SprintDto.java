@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author  David Schilling - schilling@synyx.de
  */
-public class CreateSprintDto {
+public class SprintDto {
 
     public String name;
 
     @JsonCreator
-    public CreateSprintDto(@JsonProperty("name") String name) {
+    public SprintDto(@JsonProperty("name") String name) {
 
         this.name = name;
     }

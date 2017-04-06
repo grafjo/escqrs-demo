@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,10 +38,10 @@ public class BacklogItemWriteController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> create(String name) {
+    public ResponseEntity<Void> create(@RequestBody BacklogItemDto backlogItem) {
 
         String identifier = IdentifierFactory.getInstance().generateIdentifier();
-        CreateBacklogItemCommand command = new CreateBacklogItemCommand(identifier, name);
+        CreateBacklogItemCommand command = new CreateBacklogItemCommand(identifier, backlogItem.name);
         commandGateway.sendAndWait(command);
 
         URI uri = fromCurrentRequest().path("/{id}").buildAndExpand(identifier).toUri();
@@ -53,8 +54,8 @@ public class BacklogItemWriteController {
 
     @RequestMapping(value = "/{id}/commitment", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void commit(@PathVariable("id") String backlogItemIdentifier, String sprintIdentifier) {
+    public void commit(@PathVariable("id") String backlogItemIdentifier, @RequestBody CommitmentDto commitment) {
 
-        commandGateway.sendAndWait(new CommitBacklogItemCommand(backlogItemIdentifier, sprintIdentifier));
+        commandGateway.sendAndWait(new CommitBacklogItemCommand(backlogItemIdentifier, commitment.sprintIdentifier));
     }
 }
