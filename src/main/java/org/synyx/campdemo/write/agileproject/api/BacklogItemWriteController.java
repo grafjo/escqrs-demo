@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.synyx.campdemo.write.agileproject.domain.command.CommitBacklogItemCommand;
 import org.synyx.campdemo.write.agileproject.domain.command.CreateBacklogItemCommand;
 
 import java.net.URI;
@@ -51,6 +52,8 @@ public class BacklogItemWriteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void commit(@PathVariable("id") String backlogItemIdentifier, @RequestBody CommitmentDto commitment) {
 
-        throw new UnsupportedOperationException("Here is something missing. Fix it!");
+        CommitBacklogItemCommand command = new CommitBacklogItemCommand(commitment.sprintIdentifier, backlogItemIdentifier);
+
+        commandGateway.sendAndWait(command);
     }
 }
