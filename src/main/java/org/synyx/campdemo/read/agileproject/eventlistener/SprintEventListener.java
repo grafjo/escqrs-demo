@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.synyx.campdemo.read.agileproject.domain.SprintService;
-import org.synyx.campdemo.write.agileproject.domain.event.BacklogItemCommittedEvent;
 import org.synyx.campdemo.write.agileproject.domain.event.SprintCreatedEvent;
 
 
@@ -29,12 +28,5 @@ public class SprintEventListener {
     public void handle(SprintCreatedEvent event) {
 
         sprintService.create(event.getIdentifier(), event.getName());
-    }
-
-
-    @EventHandler
-    public void commit(BacklogItemCommittedEvent event) {
-
-        sprintService.commit(event.getSprintIdentifier(), event.getBacklogItemIdentifier());
     }
 }
